@@ -1,0 +1,30 @@
+<!DOCTYPE html> 
+<html>
+<script type = text/javascript src="jquery.js"></script> 
+
+<body>
+<p id = showData></p>
+
+
+<script>
+    console.log("H");
+    var run = true;
+        run = false;
+        var githubAPI = "https://api.github.com/repos/jquery/jquery/contributors?per_page=100&page=1";
+        $.getJSON(githubAPI, function (json) {
+                    run = true;
+                    localStorage.setItem('contributors_Jquery', JSON.stringify(json));
+                    for(var j=0;j<json.length;j++)
+                    {
+                    document.getElementById("showData").innerHTML += json[j].login + "<br>";
+                    }
+        });
+
+</script>
+
+
+
+</body>
+
+
+</html>
