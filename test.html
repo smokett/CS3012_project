@@ -10,15 +10,19 @@
     console.log("H");
     var run = true;
         run = false;
-        var githubAPI = "https://api.github.com/repos/jquery/jquery/contributors?per_page=100&page=1";
-        $.getJSON(githubAPI, function (json) {
-                    run = true;
-                    localStorage.setItem('contributors_Jquery', JSON.stringify(json));
-                    for(var j=0;j<json.length;j++)
-                    {
-                    document.getElementById("showData").innerHTML += json[j].login + "<br>";
-                    }
+        var githubAPI = "https://api.github.com/repos/jquery/jquery/contributors";
+        $.getJSON(githubAPI, function(data,status,xhr){
+        alert(xhr.getResponseHeader("Link"));
         });
+
+        // $.getJSON(githubAPI, function (json) {
+        //             run = true;
+        //             localStorage.setItem('contributors_Jquery', JSON.stringify(json));
+        //             for(var j=0;j<json.length;j++)
+        //             {
+        //             document.getElementById("showData").innerHTML += json[j].login + "<br>";
+        //             }
+        // });
 
 </script>
 
