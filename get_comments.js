@@ -7,13 +7,15 @@ var ownerLogin,ownerID;
 var index = "0";
 
 //The token to access to github API.
-var accessToken = "?token=034c6643979f5ef58c979c9f86658e2da6046b96";
+var accessToken = "?token=6410c097e3107185201473ee8365db51b8314c54";
 
 //The pouchDB instance, connect to the haskell_stack_pr_comments database from Cloudant.
-var db = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/haskell_stack_pr_comments');
+var db = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/haskell_stack_pr_comments_t');
 
 //The buffer to contain comments.
 var comments=[];
+
+var headerToken = "token 6410c097e3107185201473ee8365db51b8314c54";
 
 
 //The url of the pull requests of a repo.
@@ -21,7 +23,7 @@ var githubAPI = "https://api.github.com/repos/commercialhaskell/stack/pulls" + a
 
 $.ajax({
     dataType: "json",
-    headers: { Authorization: "token 034c6643979f5ef58c979c9f86658e2da6046b96"},
+    headers: { Authorization: headerToken},
     url: githubAPI,
     async: false,
     success:function(json,status,xhr){
@@ -40,30 +42,25 @@ $.ajax({
 
     while(pages<=lastPageInt)
     {
-        comments = [];
         githubAPI = "https://api.github.com/repos/commercialhaskell/stack/pulls" + accessToken + "&per_page=100" + "&state=all" + "&page=" + pages;    
         //To get one page of pull requests.
         $.ajax({
             dataType: "json",
-            headers: { Authorization: "token 034c6643979f5ef58c979c9f86658e2da6046b96"},
+            headers: { Authorization: headerToken},
             url: githubAPI,
-            async: false,
+            async: true,
             success:function(json,status,xhr){
-            console.log(xhr.getResponseHeader("Link"));
-
-
          
          for(var i=0;i<json.length;i++)
          {
-             console.log(i);
             //Set url for each pull request.
             githubAPI = json[i].url + accessToken;
             //To get each pull request.
             $.ajax({
                 dataType: "json",
-                headers: { Authorization: "token 034c6643979f5ef58c979c9f86658e2da6046b96"},
+                headers: { Authorization: headerToken},
                 url: githubAPI,
-                async: false,
+                async: true,
                 success:function (json) 
                 {
 
@@ -86,9 +83,9 @@ $.ajax({
                     //Get the comments.
                     $.ajax({
                         dataType: "json",
-                        headers: { Authorization: "token 034c6643979f5ef58c979c9f86658e2da6046b96"},
+                        headers: { Authorization: headerToken},
                         url: githubAPI,
-                        async: false,
+                        async: true,
                         success:function(json){
 
                         //Only do operations if a PR has comments.
@@ -111,22 +108,26 @@ $.ajax({
         
        
     }
-    //Upload one page of comments to the db.
-    db.bulkDocs(comments).then(function (result) {
-        console.log(result);
-      }).catch(function (err) {
-        console.log(err);
-      });
     }
     });
     //Show progress in HTML.
-    document.getElementById("showProgress").innerHTML += "Page "+ pages + " was successfully uploaded to database." + "<br>";
+    console.log("Page "+ pages + " was successfully fetched.");
     pages++;
     }
 
+
 }
+
 });
-    document.getElementById("showProgress").innerHTML += "Finished." + "<br>";
+    //Upload one page of comments to the db.
+    db.bulkDocs(comments).then(function (result) {
+        console.log(result);
+        }).catch(function (err) {
+        console.log(err);
+        });
+    console.log("All pages was successfully uploaded to database.");
+    console.log("Finished.");
+
 
 
 
