@@ -1,20 +1,11 @@
 <!DOCTYPE html> 
 <html>
 <script type = text/javascript src="jquery.js"></script>
-<script type = text/javascript src="pouchdb-7.0.0.min.js"></script>
+<script type = text/javascript src="pouchdb-7.0.0.js"></script>
 <script type = text/javascript src="pouchdb.find.js"></script>
 <body>
 <p id = showData></p>
-<script>
-    $.ajax({
-    dataType: "json",
-    headers: { Authorization: "token 034c6643979f5ef58c979c9f86658e2da6046b96"},
-    url: "https://api.github.com/repos/commercialhaskell/stack/pulls",
-    success: function(json,status,jxhr){
-                     console.log(json);
-    }
-});
-</script>
+<script type = text/javascript src="process_comments.js"></script>
 </body>
 
 </html>
