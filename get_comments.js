@@ -7,19 +7,22 @@ var ownerLogin,ownerID;
 var index = "0";
 
 //The token to access to github API.
-var accessToken = "?token=6410c097e3107185201473ee8365db51b8314c54";
+var accessToken = "?token=e1a0359121e8f2b07fb2f04383f963811b2de2f7";
 
 //The pouchDB instance, connect to the haskell_stack_pr_comments database from Cloudant.
-var db = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/haskell_stack_pr_comments_t');
+var db = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/arduino_pr_comments');
 
 //The buffer to contain comments.
 var comments=[];
 
-var headerToken = "token 6410c097e3107185201473ee8365db51b8314c54";
+var headerToken = "token e1a0359121e8f2b07fb2f04383f963811b2de2f7";
+
+//
+var repoAddress = "https://api.github.com/repos/arduino/Arduino/pulls";
 
 
 //The url of the pull requests of a repo.
-var githubAPI = "https://api.github.com/repos/commercialhaskell/stack/pulls" + accessToken + "&per_page=100" + "&state=all";
+var githubAPI = repoAddress + accessToken + "&per_page=100" + "&state=all";
 
 $.ajax({
     dataType: "json",
@@ -42,13 +45,13 @@ $.ajax({
 
     while(pages<=lastPageInt)
     {
-        githubAPI = "https://api.github.com/repos/commercialhaskell/stack/pulls" + accessToken + "&per_page=100" + "&state=all" + "&page=" + pages;    
+        githubAPI = repoAddress + accessToken + "&per_page=100" + "&state=all" + "&page=" + pages;    
         //To get one page of pull requests.
         $.ajax({
             dataType: "json",
             headers: { Authorization: headerToken},
             url: githubAPI,
-            async: true,
+            async: false,
             success:function(json,status,xhr){
          
          for(var i=0;i<json.length;i++)
@@ -60,7 +63,7 @@ $.ajax({
                 dataType: "json",
                 headers: { Authorization: headerToken},
                 url: githubAPI,
-                async: true,
+                async: false,
                 success:function (json) 
                 {
 
@@ -85,7 +88,7 @@ $.ajax({
                         dataType: "json",
                         headers: { Authorization: headerToken},
                         url: githubAPI,
-                        async: true,
+                        async: false,
                         success:function(json){
 
                         //Only do operations if a PR has comments.
