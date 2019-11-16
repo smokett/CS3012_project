@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <head>
-    <title>Sunburst Tutorial (d3 v4), Part 4</title>
+    <title>Pull request comments sunburst</title>
     <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="d3-tip.js"></script>
   <script src="jquery.js"></script>
@@ -11,7 +11,7 @@
 
 body {
     font-family: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    margin : 30px;
+    margin : 35px;
 }
 
 text {
@@ -35,12 +35,12 @@ button {
     border-radius: 3px 10px 10px 3px;
 }
 .d3-tip {
-      line-height: 1;
+      line-height: 2;
       padding: 6px;
       background: rgba(0, 0, 0, 0.8);
       color: #fff;
       border-radius: 4px;
-      font-size: 12px;
+      font-size: 16px;
     }
  
     /* Creates a small triangle extender for the tooltip */
@@ -66,10 +66,8 @@ button {
 <body>
 
     <svg></svg><br>
-    Size: <label><input class="sizeSelect" type="radio" name="sizeSelect" value="size" checked> Size</label>
-    <label><input class="sizeSelect"  type="radio" name="sizeSelect" value="count"> Count</label><br>
-    Show: <label><input class="showSelect" type="radio" name="showSelect" value="top3"> Top 3</label>
-    <label><input class="showSelect"  type="radio" name="showSelect" value="top6"> Top 6</label>
+    Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
+    <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
     <label><input class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
 
 </body>
@@ -162,7 +160,7 @@ button {
 })
                   .html(function(d) {
                     console.log("d is  ",d);
-                    return "<strong>Pull request "+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
+                    return "<strong>"+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
                   });
         newSlice.call(tip);
         newSlice.on("click", highlightSelectedSlice)
@@ -172,11 +170,10 @@ button {
     };
 
     d3.selectAll(".showSelect").on("click", showTopTopics);
-    d3.selectAll(".sizeSelect").on("click", sliceSizer);
 
     // Redraw the Sunburst Based on User Input
     function highlightSelectedSlice(c,i) {
-
+        console.log(c);
         clicked = c;
         var rootPath = clicked.path(root).reverse();
         rootPath.shift(); // remove root node from the array
@@ -203,21 +200,7 @@ button {
     };
 
     // Redraw the Sunburst Based on User Input
-    function sliceSizer(r, i) {
-
-        // Determine how to size the slices.
-        if (this.value === "size") {
-            root.sum(function (d) { return d.size; });
-        } else {
-            root.count();
-        }
-        root.sort(function(a, b) { return b.value - a.value; });
-
-        partition(root);
-
-        newSlice.selectAll("path").transition().duration(750).attrTween("d", arcTweenPath);
-        newSlice.selectAll("text").transition().duration(750).attrTween("transform", arcTweenText);
-    };
+ 
 
     // Redraw the Sunburst Based on User Input
     function showTopTopics(r, i) {
@@ -225,10 +208,10 @@ button {
         var showCount;
 
         // Determine how to size the slices.
-        if (this.value === "top3") {
-            showCount = 3;
-        } else if (this.value === "top6") {
-            showCount = 6;
+        if (this.value === "top5") {
+            showCount = 5;
+        } else if (this.value === "top10") {
+            showCount = 10;
         } else {
             showCount = 100;
         }

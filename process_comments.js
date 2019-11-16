@@ -86,7 +86,7 @@ dbLocal.allDocs({include_docs: true},function (err, raw) {
     {
         if(records[i].PR_own>0)
         {
-            var aCoder = {name : records[i].login,rank : records[i].PR_own,children : []};           
+            var aCoder = {name : "Number of PR owned by "+records[i].login,rank : records[i].PR_own,children : []};           
             var comments_given = {name : "comments given",size : records[i].comments_given,rank : records[i].comments_given};
             aCoder.children.push(comments_given);
             var comments_received = {name : "comments received",size : records[i].comments_received,rank : records[i].comments_received};
