@@ -152,14 +152,7 @@ button {
         	console.dir(d);
           return color((d.children ? d : d.parent).data.name); });
 
-        // Populate the <text> elements with our data-driven titles.
-        slice.selectAll('text').remove();
-        newSlice.append("text")
-            .attr("transform", function(d) {
-                return "translate(" + arc.centroid(d) + ")rotate(" + computeTextRotation(d) + ")"; })
-            .attr("dx", "-20")
-            .attr("dy", ".5em")
-            .text(function(d) {  return d.parent ? d.data.name : "Topics" });
+
        // tooltip add
         var tip = d3.tip()
                   .attr('class', 'd3-tip')
@@ -169,7 +162,7 @@ button {
 })
                   .html(function(d) {
                     console.log("d is  ",d);
-                    return "<strong># of "+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
+                    return "<strong>Pull request "+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
                   });
         newSlice.call(tip);
         newSlice.on("click", highlightSelectedSlice)
@@ -273,28 +266,7 @@ button {
      * @param {Number} i
      * @return {Number}
      */
-    function arcTweenText(a, i) {
 
-        var oi = d3.interpolate({ x0: a.x0s, x1: a.x1s }, a);
-        function tween(t) {
-            var b = oi(t);
-            return "translate(" + arc.centroid(b) + ")rotate(" + computeTextRotation(b) + ")";
-        }
-        return tween;
-    }
-
-    /**
-     * Calculate the correct distance to rotate each label based on its location in the sunburst.
-     * @param {Node} d
-     * @return {Number}
-     */
-    function computeTextRotation(d) {
-        var angle = (d.x0 + d.x1) / Math.PI * 90;
-
-        // Avoid upside-down labels
-        return (angle < 120 || angle > 270) ? angle : angle + 180;  // labels as rims
-        //return (angle < 180) ? angle - 90 : angle + 90;  // labels as spokes
-    }
 });
 
 </script>
