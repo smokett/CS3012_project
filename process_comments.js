@@ -2,7 +2,7 @@
 var dbRemote = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/arduino_pr_comments');
 
 //The db to connect after finish.
-var dbData = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/arduino_pr_data');
+var dbData = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/show_data');
 
 //The local pouchDb instance
 var dbLocal = new PouchDB('db');
@@ -78,13 +78,29 @@ dbLocal.allDocs({include_docs: true},function (err, raw) {
             records[j].comments_received_per_PR = records[j].comments_received / records[j].PR_own;
         }
     }
-    console.log(records.length);
-    console.log(records);
-    dbData.bulkDocs(records).then(function (result) {
-        console.log(result);
-        }).catch(function (err) {
-        console.log(err);
-        });
+
+    //The data to be showed
+    var data = [];
+    var theData = {_id : "1",name : "comments under PR",children : []};
+    for(var i=0;i<records.length;i++)
+    {
+        if(records[i].PR_own>0)
+        {
+            var aCoder = {name : records[i].login,children : []};           
+            var comments_given = {name : "comments given",size : records[i].comments_given,rank : records[i].comments_given};
+            aCoder.children.push(comments_given);
+            var comments_received = {name : "comments received",size : records[i].comments_received,rank : records[i].comments_received};
+            aCoder.children.push(comments_received);
+            theData.children.push(aCoder);
+        }
+    }
+    data.push(theData);
+    console.log(data);
+    // dbData.bulkDocs(data).then(function (result) {
+    //     console.log(data);
+    //     }).catch(function (err) {
+    //     console.log(err);
+    //     });
      
 });
 
