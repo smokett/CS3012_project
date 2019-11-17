@@ -14,18 +14,8 @@ var commentsAmount;
 records = [];
 
 
-//Copy cloudant db to local.
-PouchDB.replicate(dbLocal,dbRemote,{
-    retry: true
-}).on('denied',function(err){
-    console.log(err);
-}).on('error',function(err){
-    console.log(err);
 
-}).on('complete',function(info){
-
-
-dbLocal.allDocs({include_docs: true},function (err, raw) {
+dbRemote.allDocs({include_docs: true},function (err, raw) {
     if (err) { return console.log(err); }
 
     for(var i=0;i<raw.rows.length;i++)
@@ -81,7 +71,7 @@ dbLocal.allDocs({include_docs: true},function (err, raw) {
 
     //The data to be showed
     var data = [];
-    var theData = {_id : "1",name : "comments under PR",children : []};
+    var theData = {_id : "2",name : "comments under PR",children : []};
     for(var i=0;i<records.length;i++)
     {
         if(records[i].PR_own>0)
@@ -104,7 +94,7 @@ dbLocal.allDocs({include_docs: true},function (err, raw) {
      
 });
 
-});
+
     
 
 
