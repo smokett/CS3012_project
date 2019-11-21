@@ -63,10 +63,20 @@ button {
       top: 100%;
       left: 0;
     }
+
+    div.absolute {
+        position: absolute;
+        left: 700px;
+        bottom : 250px;
+        border: 2px solid rgb(0, 0, 0);
+        width: 200px;
+        height: 400px;
+}
 </style>
 <body>
 
     <svg></svg><br>
+    <div class = "absolute">Potential Conclusions:<br><br> Those developers who owns more PR could be more active in the project.<br><br> Those developers who gave a lot of comments to others but received a little may have larger knowledge base. </div>
     Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
     <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
     <label><input class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
@@ -128,17 +138,6 @@ button {
         newSlice = slice.enter().append('g').attr("class", "node").merge(slice);
         slice.exit().remove();
 
-        // TRY 1: ID selection that's has been drawn previously... (requires us to set "drawn" down below)
-        //newSlice.filter ( function(d) { return !d.drawn; }).append('path')
-        //    .attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
-
-        // TRY 2: Only create paths on "first run"
-        //if (firstRun) {
-        //    newSlice.append('path').attr("display", function (d) { return d.depth ? null : "none"; }).style('stroke', '#fff');
-        //}
-
-        // TRY 1&2: Set path-d and color always. But this isn't using new arc...?
-        //newSlice.selectAll('path').attr("d", arc).style("fill", function (d) { return color((d.children ? d : d.parent).data.name); });
 
         // Append <path> elements and draw lines based on the arc calculations. Last, color the lines and the slices.
         slice.selectAll('path').remove();
@@ -199,9 +198,6 @@ button {
         //d3.select("#sidebar").text("another!");
 
     };
-
-    // Redraw the Sunburst Based on User Input
- 
 
     // Redraw the Sunburst Based on User Input
     function showTopTopics(r, i) {
