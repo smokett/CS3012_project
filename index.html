@@ -72,25 +72,51 @@ button {
         width: 200px;
         height: 400px;
 }
+select.relative {
+        position: relative;
+        left: 300px;
+}
 </style>
 <body>
 
     <svg></svg><br>
     <div class = "absolute">Potential Conclusions:<br><br> Those developers who owns more PR could be more active in the project.<br><br> Those developers who gave a lot of comments to others but received a little may have larger knowledge base. </div>
+    <div id = theBotton>
     Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
     <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
     <label><input class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
+    </div>
+    <div><br>Select Graph:
+    <select class = "relative" id = selectGraph>
+        <option value = "1">commercialhaskell/stack</option>
+        <option value = "2">arduino/Arduino</option>
+    </select>
+    </div>
 
 </body>
 
 <script>
     var dataUrl = 'https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/show_data';
     var db = new PouchDB(dataUrl);
-    db.get('1',function(err,nodeData){
-        console.log(nodeData);
-    
+    var nodeData;
+    db.get('1',function(err,data){
+        console.log(data);
+        draw(data);
+});  
+
+    document.getElementById("selectGraph").onchange = function(){
+    var option = $("#selectGraph");
+    var selected =option.find("option:selected").val();
+    console.log(selected);
+    db.get(selected,function(err,data){
+        draw(data);
+    });
+
+}
 
 
+function draw(nodeData)
+{
     // Variables
     var width = 600;
     var height = 600;
@@ -169,6 +195,8 @@ button {
      
     };
 
+
+
     d3.selectAll(".showSelect").on("click", showTopTopics);
 
     // Redraw the Sunburst Based on User Input
@@ -239,14 +267,9 @@ button {
 
         return tween;
     }
+}
 
-    /**
-     * When switching data: interpolate the text centroids and rotation.
-     * @param {Node} a
-     * @param {Number} i
-     * @return {Number}
-     */
 
-});
+
 
 </script>
