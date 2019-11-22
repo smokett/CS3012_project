@@ -5,7 +5,7 @@
   <script src="d3-tip.js"></script>
   <script src="jquery.js"></script>
   <script src="pouchdb-7.0.0.js"></script>
-  <h2>PR comments statistics for the repo : commercialhaskell/stack</h2>
+  <h2 id = title>PR comments statistics for the repo : commercialhaskell/stack</h2>
 </head>
 <style>
 @import url('https://fonts.googleapis.com/css?family=Raleway');
@@ -96,6 +96,7 @@ select.relative {
 </body>
 
 <script>
+    //read the data for the first graph from database
     var dataUrl = 'https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/show_data';
     var db = new PouchDB(dataUrl);
     var nodeData;
@@ -104,11 +105,16 @@ select.relative {
         draw(data);
 });  
 
+    //switch between graphs
     document.getElementById("selectGraph").onchange = function(){
     var option = $("#selectGraph");
     var selected =option.find("option:selected").val();
     console.log(selected);
     db.get(selected,function(err,data){
+        if(selected === "1")
+        document.getElementById("title").innerHTML = "PR comments statistics for the repo : commercialhaskell/stack";
+        else if(selected === "2")
+        {document.getElementById("title").innerHTML = "PR comments statistics for the repo : arduino/Arduino";}
         draw(data);
     });
 
@@ -189,8 +195,8 @@ function draw(nodeData)
                     return "<strong>"+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
                   });
         newSlice.call(tip);
-        newSlice.on("click", highlightSelectedSlice)
-        .on("mouseover",tip.show)
+        //newSlice.on("click", highlightSelectedSlice)
+        newSlice.on("mouseover",tip.show)
         .on("mouseout",tip.hide);
      
     };
