@@ -1,3 +1,7 @@
+var databaseAddress = 'https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/arduino_pr_comments';
+var repo = 'arduino/Arduino';
+var headerToken = "token a82385a7f8f290cdd5d0de7f0e392204f98b4ce0";
+
 //This is a java script file to get data from github API and store them into database(IBM Cloudant).
 
 //Global variable to remember owner Login and ID of a pull request.
@@ -9,15 +13,15 @@ var index = "0";
 
 
 //The pouchDB instance, connect to the haskell_stack_pr_comments database from Cloudant.
-var db = new PouchDB('https://fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix:e01ad0f8a3355ea74bf8efeb523cd6da8e8afe94f5a26b2e6af4a7112dd1d144@fc535eaf-52c1-47a3-acf6-c990cfa80dfd-bluemix.cloudantnosqldb.appdomain.cloud/arduino_pr_comments');
+var db = new PouchDB(databaseAddress);
 
 //The buffer to contain comments.
 var comments=[];
 
-var headerToken = "token a82385a7f8f290cdd5d0de7f0e392204f98b4ce0";
+
 
 //
-var repoAddress = "https://api.github.com/repos/arduino/Arduino/pulls";
+var repoAddress = "https://api.github.com/repos/" + repo + "/pulls";
 
 
 //The url of the pull requests of a repo.
