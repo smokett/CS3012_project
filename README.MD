@@ -10,21 +10,21 @@ So this project is to show who left more comments to the others, and how many co
 This project was built with javascript and HTML. The repos commercialhaskell/stack and arduino/Arduino(open source) were selected for this project.
 
 ## Libraries:
-jquery.js -- basic library for js.
-pouchdb-7.0.0.js -- useful tool to connect to database in js.
-pouchdb.find.js -- lib for pouchdb query.
-d3.v4.min.js -- d3 visualization lib.
-d3-tip.js -- Tooltips for d3 visualizations.
+- jquery.js -- basic library for js.
+- pouchdb-7.0.0.js -- useful tool to connect to database in js.
+- pouchdb.find.js -- lib for pouchdb query.
+- d3.v4.min.js -- d3 visualization lib.
+- d3-tip.js -- Tooltips for d3 visualizations.
 
 ## Database:
 The data collected and produced by these programs are stores in the IBM Cloudant database.
 
 ## Codes:
-get_comments.html & get_comments.js -- This program could automatically collect all the comments for all the pull requests of a repo, and stored them into database. This program may run a little bit slow, at a speed about 1000PRs per 30mins, but send requests to github api could trigger the abuse mechanism if send more than 50 requests per min.
+- get_comments.html & get_comments.js -- This program could automatically collect all the comments for all the pull requests of a repo, and stored them into database. This program may run a little bit slow, at a speed about 1000PRs per 30mins, but send requests to github api could trigger the abuse mechanism if send more than 50 requests per min.
 
-process_comments.html & process_comments.js -- This program will read the collected data from the database and process them, then put the final data back to the database. The final data is used to show in the graph.
+- process_comments.html & process_comments.js -- This program will read the collected data from the database and process them, then put the final data back to the database. The final data is used to show in the graph.
 
-graph.html -- This draws a sunbrust graph using d3 visualization lib, shows how many PRs each developer owns and how many comments they received and gave.
+- graph.html -- This draws a sunbrust graph using d3 visualization lib, shows how many PRs each developer owns and how many comments they received and gave.
 
 ## example:
 
