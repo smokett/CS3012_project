@@ -81,11 +81,9 @@ select.relative {
 
     <svg></svg><br>
     <div class = "absolute">Potential Conclusions:<br><br> Those developers who owns more PR could be more active in the project.<br><br> Those developers who gave a lot of comments to others but received a little may have larger knowledge base. </div>
-    <div id = theBotton>
-    Show: <label><input class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
-    <label><input class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
-    <label><input class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
-    </div>
+    Show: <label><input id = t5 class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
+    <label><input id = t10 class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
+    <label><input id = all class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
     <div><br>Select Graph:
     <select class = "relative" id = selectGraph>
         <option value = "1">commercialhaskell/stack</option>
@@ -115,6 +113,10 @@ select.relative {
         document.getElementById("title").innerHTML = "PR comments statistics for the repo : commercialhaskell/stack";
         else if(selected === "2")
         {document.getElementById("title").innerHTML = "PR comments statistics for the repo : arduino/Arduino";}
+
+        document.getElementById("t5").checked = false;
+        document.getElementById("t10").checked = false;
+        document.getElementById("all").checked = true;
         draw(data);
     });
 
