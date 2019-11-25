@@ -67,10 +67,10 @@ button {
     div.absolute {
         position: absolute;
         left: 700px;
-        bottom : 250px;
+        bottom : 200px;
         border: 2px solid rgb(0, 0, 0);
         width: 200px;
-        height: 400px;
+        height: 470px;
 }
 select.relative {
         position: relative;
@@ -80,7 +80,9 @@ select.relative {
 <body>
 
     <svg></svg><br>
-    <div class = "absolute">Potential Conclusions:<br><br> Those developers who owns more PR could be more active in the project.<br><br> Those developers who gave a lot of comments to others but received a little may have larger knowledge base. </div>
+    <div class = "absolute"><b>Potential Conclusions:</b><br><br> Those developers who owns more PR could be more active in the project.<br><br> Those developers who gave a lot of comments to others but received a little may have larger knowledge base.<br><br>
+    <b>Desciption:</b><br><br>The <span style="color:red;">comments given</span> only includes the comments that the developer left under <span style="color:red">someone else's</span> PR.<br><br>The <span style="color:red">
+    comments received</span> only includes the comments under the developer's PR that left by <span style="color:red">someone else</span>. </div>
     Show: <label><input id = t5 class="showSelect" type="radio" name="showSelect" value="top5"> Top 5</label>
     <label><input id = t10 class="showSelect"  type="radio" name="showSelect" value="top10"> Top 10</label>
     <label><input id = all class="showSelect" type="radio" name="showSelect" value="all" checked> All</label>
@@ -197,7 +199,6 @@ function draw(nodeData)
                     return "<strong>"+ d.data.name+"</strong> <span style='color:red'>" + d.data.rank + "</span>";
                   });
         newSlice.call(tip);
-        //newSlice.on("click", highlightSelectedSlice)
         newSlice.on("mouseover",tip.show)
         .on("mouseout",tip.hide);
      
@@ -207,33 +208,7 @@ function draw(nodeData)
 
     d3.selectAll(".showSelect").on("click", showTopTopics);
 
-    // Redraw the Sunburst Based on User Input
-    function highlightSelectedSlice(c,i) {
-        console.log(c);
-        clicked = c;
-        var rootPath = clicked.path(root).reverse();
-        rootPath.shift(); // remove root node from the array
-
-        newSlice.style("opacity", 0.4);
-        newSlice.filter(function(d) {
-            if (d === clicked && d.prevClicked) {
-                d.prevClicked = false;
-                newSlice.style("opacity", 1);
-                return true;
-
-            } else if (d === clicked) {
-                d.prevClicked = true;
-                return true;
-            } else {
-                d.prevClicked = false;
-                return (rootPath.indexOf(d) >= 0);
-            }
-        })
-            .style("opacity", 1);
-
-        //d3.select("#sidebar").text("another!");
-
-    };
+    
 
     // Redraw the Sunburst Based on User Input
     function showTopTopics(r, i) {
